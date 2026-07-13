@@ -42,10 +42,10 @@ Order `status` values: `pending` → `preparing` → `ready` → `delivered`, pl
 
 ## Phase 3 — Customer Menu Browsing (Days 4–5)
 
-- [ ] `MenuController@index` — show available menu items grouped by category
-- [ ] Category filter (click a category to see only its items)
-- [ ] Menu item detail page (photo, description, price)
-- [ ] Blade layout with navbar (Menu, Cart, My Orders, Login/Logout)
+- [x] `MenuController@index` — show available menu items grouped by category
+- [x] Category filter (click a category to see only its items)
+- [x] Menu item detail page (description, price; image display comes with Phase 6 uploads)
+- [x] Blade layout with navbar (Menu, Login/Register or user menu + Logout — Cart and My Orders links land in Phases 4–5 once those routes exist)
 
 ## Phase 4 — Shopping Cart (Days 6–8)
 
