@@ -15,7 +15,16 @@
                     <x-nav-link :href="route('menu.index')" :active="request()->routeIs('menu.*')">
                         {{ __('Menu') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.*')">
+                        {{ __('Cart') }}
+                        @if ($cartCount > 0)
+                            <span class="ms-1 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-white bg-gray-900 rounded-full">{{ $cartCount }}</span>
+                        @endif
+                    </x-nav-link>
                     @auth
+                        <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
+                            {{ __('My Orders') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
@@ -84,7 +93,13 @@
             <x-responsive-nav-link :href="route('menu.index')" :active="request()->routeIs('menu.*')">
                 {{ __('Menu') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.*')">
+                {{ __('Cart') }}{{ $cartCount > 0 ? " ({$cartCount})" : '' }}
+            </x-responsive-nav-link>
             @auth
+                <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
+                    {{ __('My Orders') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>

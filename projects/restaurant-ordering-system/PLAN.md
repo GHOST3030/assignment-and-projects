@@ -51,18 +51,18 @@ Order `status` values: `pending` → `preparing` → `ready` → `delivered`, pl
 
 Use the **session** to store the cart (no database table needed).
 
-- [ ] `CartController` with actions: add item, update quantity, remove item, view cart
-- [ ] Cart page showing items, quantities, line totals, and grand total
-- [ ] Cart badge in the navbar showing item count
-- [ ] Validate: can't add unavailable items, quantity must be 1–20
+- [x] `CartController` with actions: add item, update quantity, remove item, view cart
+- [x] Cart page showing items, quantities, line totals, and grand total
+- [x] Cart badge in the navbar showing item count
+- [x] Validate: can't add unavailable items, quantity must be 1–20
 
 ## Phase 5 — Checkout & Orders (Days 9–11)
 
-- [ ] `OrderController@store` — convert the cart into an `orders` row + `order_items` rows inside a DB transaction, then clear the cart
-- [ ] Copy each item's current price into `order_items.price` (menus change; orders shouldn't)
-- [ ] Order confirmation page with order number and summary
-- [ ] "My Orders" page — customer sees their order history and each order's status
-- [ ] Customers can cancel an order only while it's still `pending`
+- [x] `OrderController@store` — convert the cart into an `orders` row + `order_items` rows inside a DB transaction, then clear the cart
+- [x] Copy each item's current price into `order_items.price` (menus change; orders shouldn't)
+- [x] Order confirmation page with order number and summary (redirects to the order detail page)
+- [x] "My Orders" page — customer sees their order history and each order's status
+- [x] Customers can cancel an order only while it's still `pending`
 
 ## Phase 6 — Admin Dashboard (Days 12–15)
 

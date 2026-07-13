@@ -27,6 +27,22 @@
                 </header>
             @endisset
 
+            <!-- Flash Messages -->
+            @if (session('success') || session('error'))
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+                    @if (session('success'))
+                        <div class="px-4 py-3 rounded-md bg-green-50 text-green-800 border border-green-200">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if (session('error'))
+                        <div class="px-4 py-3 rounded-md bg-red-50 text-red-800 border border-red-200">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+                </div>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}

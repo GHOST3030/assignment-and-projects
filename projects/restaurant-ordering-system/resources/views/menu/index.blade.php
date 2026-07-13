@@ -33,16 +33,23 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach ($category->menuItems as $item)
-                                <a href="{{ route('menu.show', $item) }}"
-                                   class="block border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
-                                    <div class="flex justify-between items-start gap-2">
-                                        <h4 class="font-medium text-gray-900">{{ $item->name }}</h4>
-                                        <span class="text-gray-900 font-semibold whitespace-nowrap">${{ number_format($item->price, 2) }}</span>
-                                    </div>
-                                    @if ($item->description)
-                                        <p class="text-sm text-gray-500 mt-1">{{ $item->description }}</p>
-                                    @endif
-                                </a>
+                                <div class="flex flex-col justify-between border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                                    <a href="{{ route('menu.show', $item) }}" class="block">
+                                        <div class="flex justify-between items-start gap-2">
+                                            <h4 class="font-medium text-gray-900">{{ $item->name }}</h4>
+                                            <span class="text-gray-900 font-semibold whitespace-nowrap">${{ number_format($item->price, 2) }}</span>
+                                        </div>
+                                        @if ($item->description)
+                                            <p class="text-sm text-gray-500 mt-1">{{ $item->description }}</p>
+                                        @endif
+                                    </a>
+                                    <form method="POST" action="{{ route('cart.add', $item) }}" class="mt-3">
+                                        @csrf
+                                        <button type="submit" class="w-full px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-700">
+                                            {{ __('Add to Cart') }}
+                                        </button>
+                                    </form>
+                                </div>
                             @endforeach
                         </div>
                     </div>

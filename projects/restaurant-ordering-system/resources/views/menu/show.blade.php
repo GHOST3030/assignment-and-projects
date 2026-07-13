@@ -26,6 +26,18 @@
                 @if ($menuItem->description)
                     <p class="mt-4 text-gray-600">{{ $menuItem->description }}</p>
                 @endif
+
+                @if ($menuItem->is_available)
+                    <form method="POST" action="{{ route('cart.add', $menuItem) }}" class="mt-6 flex items-center gap-3">
+                        @csrf
+                        <label for="quantity" class="text-sm font-medium text-gray-700">{{ __('Quantity') }}</label>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" max="20"
+                               class="w-20 rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                        <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-700">
+                            {{ __('Add to Cart') }}
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
