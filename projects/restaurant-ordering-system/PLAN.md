@@ -10,11 +10,11 @@ Admins manage the menu and update order statuses.
 
 ## Phase 1 — Project Setup (Day 1)
 
-- [ ] Create the project: `composer create-project laravel/laravel restaurant-ordering-system`
-- [ ] Configure `.env` to use SQLite (`DB_CONNECTION=sqlite`) and create `database/database.sqlite`
-- [ ] Install Breeze for login/register: `composer require laravel/breeze --dev && php artisan breeze:install blade`
-- [ ] Run `npm install && npm run dev` and `php artisan migrate`
-- [ ] Verify you can register and log in at `http://localhost:8000`
+- [x] Create the project: `composer create-project laravel/laravel restaurant-ordering-system`
+- [x] Configure `.env` to use SQLite (`DB_CONNECTION=sqlite`) and create `database/database.sqlite`
+- [x] Install Breeze for login/register: `composer require laravel/breeze --dev && php artisan breeze:install blade`
+- [x] Run `npm install && npm run dev` and `php artisan migrate`
+- [x] Verify you can register and log in at `http://localhost:8000`
 
 ## Phase 2 — Database Design (Days 2–3)
 
@@ -30,15 +30,15 @@ Create migrations for these tables:
 
 Order `status` values: `pending` → `preparing` → `ready` → `delivered`, plus `cancelled`.
 
-- [ ] Write the 4 new migrations + the `role` column migration
-- [ ] Create models: `Category`, `MenuItem`, `Order`, `OrderItem`
-- [ ] Define relationships:
+- [x] Write the 4 new migrations + the `role` column migration
+- [x] Create models: `Category`, `MenuItem`, `Order`, `OrderItem`
+- [x] Define relationships:
   - Category `hasMany` MenuItem
   - MenuItem `belongsTo` Category
   - Order `belongsTo` User, `hasMany` OrderItem
   - OrderItem `belongsTo` Order and MenuItem
-- [ ] Write seeders: 1 admin user, 4 categories, ~12 menu items
-- [ ] Run `php artisan migrate:fresh --seed` and test relationships in `php artisan tinker`
+- [x] Write seeders: 1 admin user, 4 categories, ~12 menu items
+- [x] Run `php artisan migrate:fresh --seed` and test relationships in `php artisan tinker`
 
 ## Phase 3 — Customer Menu Browsing (Days 4–5)
 
