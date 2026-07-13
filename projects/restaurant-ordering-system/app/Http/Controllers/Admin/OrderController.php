@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -41,6 +43,8 @@ class OrderController extends Controller
         }
 
         $order->update(['status' => $next]);
+
+        Mail::to($order->user)->send(new OrderStatusUpdated($order->load('items.menuItem')));
 
         return back()->with('success', "Order #{$order->id} marked as {$next}.");
     }

@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Mail\OrderStatusUpdated;
 use App\Models\Category;
 use App\Models\MenuItem;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class OrderTest extends TestCase
@@ -98,6 +100,8 @@ class OrderTest extends TestCase
 
     public function test_customer_can_cancel_a_pending_order(): void
     {
+        Mail::fake();
+
         $user = User::factory()->create();
         $order = $user->orders()->create(['status' => 'pending', 'total' => 15.00]);
 
@@ -105,6 +109,7 @@ class OrderTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'cancelled']);
+        Mail::assertSent(OrderStatusUpdated::class, fn ($mail) => $mail->hasTo($user->email));
     }
 
     public function test_customer_cannot_cancel_an_order_that_is_already_preparing(): void

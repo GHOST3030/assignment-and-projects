@@ -8,14 +8,31 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
+            <!-- Search -->
+            <form method="GET" action="{{ route('menu.index') }}" class="flex gap-2">
+                @if ($selectedCategory)
+                    <input type="hidden" name="category" value="{{ $selectedCategory->id }}">
+                @endif
+                <input type="search" name="search" value="{{ $search }}" placeholder="{{ __('Search menu items...') }}"
+                       class="w-full max-w-sm rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring-gray-500">
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-700">
+                    {{ __('Search') }}
+                </button>
+                @if ($search)
+                    <a href="{{ route('menu.index', array_filter(['category' => $selectedCategory?->id])) }}" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-900">
+                        {{ __('Clear') }}
+                    </a>
+                @endif
+            </form>
+
             <!-- Category Filter -->
             <div class="flex flex-wrap gap-2">
-                <a href="{{ route('menu.index') }}"
+                <a href="{{ route('menu.index', array_filter(['search' => $search])) }}"
                    class="px-4 py-2 rounded-full text-sm font-medium {{ is_null($selectedCategory) ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' }}">
                     All
                 </a>
                 @foreach ($categories as $category)
-                    <a href="{{ route('menu.index', ['category' => $category->id]) }}"
+                    <a href="{{ route('menu.index', array_filter(['category' => $category->id, 'search' => $search])) }}"
                        class="px-4 py-2 rounded-full text-sm font-medium {{ $selectedCategory?->id === $category->id ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50' }}">
                         {{ $category->name }}
                     </a>
@@ -23,43 +40,42 @@
             </div>
 
             @php
-                $categoriesToShow = $selectedCategory ? collect([$selectedCategory]) : $categories;
+                $categoriesToShow = ($selectedCategory ? collect([$selectedCategory]) : $categories)
+                    ->filter(fn ($category) => $category->menuItems->isNotEmpty());
             @endphp
 
             @forelse ($categoriesToShow as $category)
-                @if ($category->menuItems->isNotEmpty())
-                    <div class="bg-white shadow-sm sm:rounded-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $category->name }}</h3>
+                <div class="bg-white shadow-sm sm:rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ $category->name }}</h3>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                            @foreach ($category->menuItems as $item)
-                                <div class="flex flex-col justify-between border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
-                                    <a href="{{ route('menu.show', $item) }}" class="block">
-                                        @if ($item->image)
-                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" alt="{{ $item->name }}" class="w-full h-32 object-cover rounded-md mb-2">
-                                        @endif
-                                        <div class="flex justify-between items-start gap-2">
-                                            <h4 class="font-medium text-gray-900">{{ $item->name }}</h4>
-                                            <span class="text-gray-900 font-semibold whitespace-nowrap">${{ number_format($item->price, 2) }}</span>
-                                        </div>
-                                        @if ($item->description)
-                                            <p class="text-sm text-gray-500 mt-1">{{ $item->description }}</p>
-                                        @endif
-                                    </a>
-                                    <form method="POST" action="{{ route('cart.add', $item) }}" class="mt-3">
-                                        @csrf
-                                        <button type="submit" class="w-full px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-700">
-                                            {{ __('Add to Cart') }}
-                                        </button>
-                                    </form>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach ($category->menuItems as $item)
+                            <div class="flex flex-col justify-between border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+                                <a href="{{ route('menu.show', $item) }}" class="block">
+                                    @if ($item->image)
+                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" alt="{{ $item->name }}" class="w-full h-32 object-cover rounded-md mb-2">
+                                    @endif
+                                    <div class="flex justify-between items-start gap-2">
+                                        <h4 class="font-medium text-gray-900">{{ $item->name }}</h4>
+                                        <span class="text-gray-900 font-semibold whitespace-nowrap">${{ number_format($item->price, 2) }}</span>
+                                    </div>
+                                    @if ($item->description)
+                                        <p class="text-sm text-gray-500 mt-1">{{ $item->description }}</p>
+                                    @endif
+                                </a>
+                                <form method="POST" action="{{ route('cart.add', $item) }}" class="mt-3">
+                                    @csrf
+                                    <button type="submit" class="w-full px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-md hover:bg-gray-700">
+                                        {{ __('Add to Cart') }}
+                                    </button>
+                                </form>
+                            </div>
+                        @endforeach
                     </div>
-                @endif
+                </div>
             @empty
                 <div class="bg-white shadow-sm sm:rounded-lg p-6 text-gray-500">
-                    {{ __('No menu items available right now.') }}
+                    {{ $search ? __('No menu items match ":search".', ['search' => $search]) : __('No menu items available right now.') }}
                 </div>
             @endforelse
 

@@ -82,12 +82,12 @@ Use the **session** to store the cart (no database table needed).
 
 ## Phase 8 — Testing & Extras (Days 19–21)
 
-- [ ] Feature tests: guest can view menu, customer can add to cart and place an order, admin can update order status, non-admin is blocked from admin routes
-- [ ] Optional extras if you have time:
-  - Search menu items by name
-  - Email notification when order status changes (Mailable + log driver)
-  - Fake payment step at checkout
-  - Live-ish status page that polls for updates
+- [x] Feature tests: guest can view menu, customer can add to cart and place an order, admin can update order status, non-admin is blocked from admin routes
+- [x] Optional extras:
+  - [x] Search menu items by name
+  - [x] Email notification when order status changes (Mailable + log driver)
+  - [ ] Fake payment step at checkout (skipped — out of scope for a learning project)
+  - [ ] Live-ish status page that polls for updates (skipped — out of scope for a learning project)
 
 ---
 

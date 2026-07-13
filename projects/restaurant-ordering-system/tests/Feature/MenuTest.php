@@ -89,4 +89,28 @@ class MenuTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Currently unavailable');
     }
+
+    public function test_menu_items_can_be_searched_by_name(): void
+    {
+        $category = Category::create(['name' => 'Mains']);
+        $category->menuItems()->create(['name' => 'Grilled Chicken', 'price' => 12, 'is_available' => true]);
+        $category->menuItems()->create(['name' => 'Beef Burger', 'price' => 10, 'is_available' => true]);
+
+        $response = $this->get(route('menu.index', ['search' => 'chicken']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Grilled Chicken');
+        $response->assertDontSee('Beef Burger');
+    }
+
+    public function test_search_with_no_matches_shows_an_empty_state(): void
+    {
+        $category = Category::create(['name' => 'Mains']);
+        $category->menuItems()->create(['name' => 'Burger', 'price' => 10, 'is_available' => true]);
+
+        $response = $this->get(route('menu.index', ['search' => 'nonexistent']));
+
+        $response->assertStatus(200);
+        $response->assertSee('No menu items match');
+    }
 }

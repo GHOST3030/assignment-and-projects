@@ -11,8 +11,12 @@ class MenuController extends Controller
 {
     public function index(Request $request): View
     {
-        $categories = Category::with(['menuItems' => function ($query) {
-            $query->where('is_available', true)->orderBy('name');
+        $search = $request->input('search');
+
+        $categories = Category::with(['menuItems' => function ($query) use ($search) {
+            $query->where('is_available', true)
+                ->when($search, fn ($q) => $q->where('name', 'like', "%{$search}%"))
+                ->orderBy('name');
         }])->orderBy('name')->get();
 
         $selectedCategory = null;
@@ -24,6 +28,7 @@ class MenuController extends Controller
         return view('menu.index', [
             'categories' => $categories,
             'selectedCategory' => $selectedCategory,
+            'search' => $search,
         ]);
     }
 

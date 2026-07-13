@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use App\Support\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -89,6 +91,8 @@ class OrderController extends Controller
         }
 
         $order->update(['status' => 'cancelled']);
+
+        Mail::to($order->user)->send(new OrderStatusUpdated($order->load('items.menuItem')));
 
         return back()->with('success', 'Order cancelled.');
     }

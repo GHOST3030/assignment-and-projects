@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Admin;
 
+use App\Mail\OrderStatusUpdated;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class OrderManagementTest extends TestCase
@@ -40,6 +42,8 @@ class OrderManagementTest extends TestCase
 
     public function test_admin_can_advance_an_order_status(): void
     {
+        Mail::fake();
+
         $customer = User::factory()->create();
         $order = $customer->orders()->create(['status' => 'pending', 'total' => 20]);
 
@@ -47,6 +51,7 @@ class OrderManagementTest extends TestCase
 
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'preparing']);
+        Mail::assertSent(OrderStatusUpdated::class, fn ($mail) => $mail->hasTo($customer->email));
     }
 
     public function test_cancelled_orders_cannot_be_advanced(): void
