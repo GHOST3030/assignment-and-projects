@@ -66,11 +66,11 @@ Use the **session** to store the cart (no database table needed).
 
 ## Phase 6 — Admin Dashboard (Days 12–15)
 
-- [ ] Middleware `IsAdmin` that only lets users with `role = admin` through
-- [ ] Admin menu CRUD: create/edit/delete menu items with image upload (`php artisan storage:link`), toggle availability
-- [ ] Admin category CRUD
-- [ ] Orders board: list all orders filtered by status; button to advance status (pending → preparing → ready → delivered)
-- [ ] Simple dashboard stats: today's orders count, today's revenue, most-ordered item
+- [x] Middleware `IsAdmin` that only lets users with `role = admin` through
+- [x] Admin menu CRUD: create/edit/delete menu items with image upload (`php artisan storage:link`), toggle availability
+- [x] Admin category CRUD
+- [x] Orders board: list all orders filtered by status; button to advance status (pending → preparing → ready → delivered)
+- [x] Simple dashboard stats: today's orders count, today's revenue, most-ordered item
 
 ## Phase 7 — Polish & Validation (Days 16–18)
 

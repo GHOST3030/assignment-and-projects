@@ -35,6 +35,9 @@
                             @foreach ($category->menuItems as $item)
                                 <div class="flex flex-col justify-between border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
                                     <a href="{{ route('menu.show', $item) }}" class="block">
+                                        @if ($item->image)
+                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" alt="{{ $item->name }}" class="w-full h-32 object-cover rounded-md mb-2">
+                                        @endif
                                         <div class="flex justify-between items-start gap-2">
                                             <h4 class="font-medium text-gray-900">{{ $item->name }}</h4>
                                             <span class="text-gray-900 font-semibold whitespace-nowrap">${{ number_format($item->price, 2) }}</span>

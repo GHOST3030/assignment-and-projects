@@ -12,6 +12,10 @@
                     &larr; {{ $menuItem->category->name }}
                 </a>
 
+                @if ($menuItem->image)
+                    <img src="{{ \Illuminate\Support\Facades\Storage::url($menuItem->image) }}" alt="{{ $menuItem->name }}" class="w-full max-h-64 object-cover rounded-md mt-4">
+                @endif
+
                 <div class="mt-4 flex justify-between items-start gap-4">
                     <h1 class="text-2xl font-bold text-gray-900">{{ $menuItem->name }}</h1>
                     <span class="text-2xl font-semibold text-gray-900 whitespace-nowrap">${{ number_format($menuItem->price, 2) }}</span>
