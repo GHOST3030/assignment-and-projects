@@ -74,11 +74,11 @@ Use the **session** to store the cart (no database table needed).
 
 ## Phase 7 — Polish & Validation (Days 16–18)
 
-- [ ] Form Request classes for all forms (menu item, checkout) with proper validation messages
-- [ ] Authorization: customers can only view/cancel their own orders (use a Policy)
-- [ ] Flash messages for success/error actions
-- [ ] Empty states (empty cart, no orders yet)
-- [ ] Style everything consistently with Tailwind
+- [x] Form Request classes for all forms (menu item, checkout) with proper validation messages
+- [x] Authorization: customers can only view/cancel their own orders (use a Policy)
+- [x] Flash messages for success/error actions
+- [x] Empty states (empty cart, no orders yet)
+- [x] Style everything consistently with Tailwind
 
 ## Phase 8 — Testing & Extras (Days 19–21)
 

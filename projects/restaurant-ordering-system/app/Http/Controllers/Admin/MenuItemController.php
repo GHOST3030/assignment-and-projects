@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreMenuItemRequest;
+use App\Http\Requests\Admin\UpdateMenuItemRequest;
 use App\Models\Category;
 use App\Models\MenuItem;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -26,9 +27,9 @@ class MenuItemController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreMenuItemRequest $request): RedirectResponse
     {
-        $validated = $this->validateRequest($request);
+        $validated = $request->validated();
         $validated['is_available'] = $request->boolean('is_available');
 
         if ($request->hasFile('image')) {
@@ -48,9 +49,9 @@ class MenuItemController extends Controller
         ]);
     }
 
-    public function update(Request $request, MenuItem $menuItem): RedirectResponse
+    public function update(UpdateMenuItemRequest $request, MenuItem $menuItem): RedirectResponse
     {
-        $validated = $this->validateRequest($request);
+        $validated = $request->validated();
         $validated['is_available'] = $request->boolean('is_available');
 
         if ($request->hasFile('image')) {
@@ -75,16 +76,5 @@ class MenuItemController extends Controller
         $menuItem->delete();
 
         return redirect()->route('admin.menu-items.index')->with('success', 'Menu item deleted.');
-    }
-
-    protected function validateRequest(Request $request): array
-    {
-        return $request->validate([
-            'category_id' => ['required', 'exists:categories,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:1000'],
-            'price' => ['required', 'numeric', 'min:0'],
-            'image' => ['nullable', 'image', 'max:2048'],
-        ]);
     }
 }

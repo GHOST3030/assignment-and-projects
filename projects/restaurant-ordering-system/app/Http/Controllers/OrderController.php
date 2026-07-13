@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreOrderRequest;
 use App\Models\Order;
 use App\Support\Cart;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -23,16 +25,13 @@ class OrderController extends Controller
         ]);
     }
 
-    public function store(Request $request, Cart $cart): RedirectResponse
+    public function store(StoreOrderRequest $request, Cart $cart): RedirectResponse
     {
         if ($cart->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
         }
 
-        $validated = $request->validate([
-            'notes' => ['nullable', 'string', 'max:500'],
-        ]);
-
+        $validated = $request->validated();
         $items = $cart->items();
 
         foreach ($items as $entry) {
@@ -74,7 +73,7 @@ class OrderController extends Controller
 
     public function show(Order $order): View
     {
-        abort_unless($order->user_id === auth()->id(), 403);
+        Gate::authorize('view', $order);
 
         $order->load('items.menuItem');
 
@@ -83,7 +82,7 @@ class OrderController extends Controller
 
     public function cancel(Order $order): RedirectResponse
     {
-        abort_unless($order->user_id === auth()->id(), 403);
+        Gate::authorize('view', $order);
 
         if (! $order->isCancellable()) {
             return back()->with('error', 'This order can no longer be cancelled.');

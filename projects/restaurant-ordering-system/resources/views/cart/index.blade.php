@@ -15,6 +15,8 @@
                         <a href="{{ route('menu.index') }}" class="text-gray-900 underline">{{ __('Browse the menu') }}</a>
                     </p>
                 @else
+                    <x-input-error :messages="$errors->get('quantity')" class="mb-4" />
+
                     <div class="divide-y divide-gray-200">
                         @foreach ($items as $entry)
                             <div class="py-4 flex items-center justify-between gap-4">

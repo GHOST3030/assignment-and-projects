@@ -117,4 +117,16 @@ class OrderTest extends TestCase
         $response->assertRedirect();
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'preparing']);
     }
+
+    public function test_customer_cannot_cancel_another_customers_order(): void
+    {
+        $owner = User::factory()->create();
+        $intruder = User::factory()->create();
+        $order = $owner->orders()->create(['status' => 'pending', 'total' => 15.00]);
+
+        $response = $this->actingAs($intruder)->post(route('orders.cancel', $order));
+
+        $response->assertForbidden();
+        $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'pending']);
+    }
 }
