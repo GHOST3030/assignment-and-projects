@@ -1,0 +1,19 @@
+# Credentials — never commit real secrets (covers all firmware variants)
+**/secrets.h
+platformio/lib/config/config.h
+
+# PlatformIO build output
+platformio/.pio/
+
+# Build artifacts
+build/
+*.bin
+*.elf
+
+# PlatformIO
+.pio/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
